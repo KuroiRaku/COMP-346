@@ -9,13 +9,6 @@ package javaapplication11;
  *
  * @author Le Cherng
  */
-public class JavaApplication11 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class Accounts extends Thread{
     
 }
