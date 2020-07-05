@@ -2,3 +2,4 @@
 *.properties
 *.mf
 *.xml
+/JavaApplication11/build/

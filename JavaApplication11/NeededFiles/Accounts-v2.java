@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication11;
+package comp346pa1s2020;
 
-/**
- *
- * @author Le Cherng
- */
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -157,11 +148,9 @@ public class Accounts {
 	* 
 	* @return String representation
 	*/
-    @Override
 	public String toString() 
 	{
 		return ("\n Account number " + getAccountNumber() + "Account type " + getAccountType() + "First name " + getFirstName() + "Last Name " + getLastName() + "Balance " + getBalance());
 	}
     
 }
-

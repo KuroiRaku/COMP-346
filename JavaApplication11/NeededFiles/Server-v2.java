@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication11;
+package comp346pa1s2020;
 
-/**
- *
- * @author Le Cherng
- */
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,7 +17,7 @@ import java.util.InputMismatchException;
  * @author Kerly Titus
  */
 
-public class Server extends Thread{
+public class Server {
   
 	int numberOfTransactions;         /* Number of transactions handled by the server */
 	int numberOfAccounts;             /* Number of accounts stored in the server */
@@ -320,14 +311,13 @@ public class Server extends Thread{
     public void run()
     {   Transactions trans = new Transactions();
     	long serverStartTime, serverEndTime;
-        
-        serverStartTime = System.currentTimeMillis();
+
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
     	
     	/* Implement the code for the run method */
-        serverEndTime = System.currentTimeMillis();
-        System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
         
+        System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
+           
     }
 }
 

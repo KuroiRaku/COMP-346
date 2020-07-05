@@ -1,21 +1,24 @@
+package comp346pa1s2020;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication11;
 
 /**
  *
- * @author Le Cherng
+ * @author Kerly Titus
  */
-public class Driver {
+public class comp546pa1driver {
 
-    /**
+    /** 
+     * main class
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /*******************************************************************************************************************************************
+    	
+    	 /*******************************************************************************************************************************************
     	  * TODO : implement all the operations of main class   																					*
     	  ******************************************************************************************************************************************/
         
@@ -28,5 +31,4 @@ public class Driver {
         Client objClient2 = new Client("receiving");            /* Start the receiving client */
         objClient2.start();
     }
-    
 }
