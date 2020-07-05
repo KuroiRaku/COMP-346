@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javaapplication11;
 
-/**
- *
- * @author Le Cherng
- */
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,7 +8,7 @@ package javaapplication11;
 
 /** Transactions class
  *
- * @author Kerly Titus
+ * @author Le Cherng Lee, Mona Kia, Richard Nguyen
  */
 public class Transactions {
     
