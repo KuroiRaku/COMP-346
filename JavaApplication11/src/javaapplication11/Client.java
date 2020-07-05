@@ -218,7 +218,7 @@ public class Client extends Thread {
      */
     @Override
     public void run() {
-        if (currentThread().getName().equals("sending")) {
+        if (clientOperation.equals("sending")) {
             System.out.println("\n DEBUG : Client.run() - starting client sending thread connected");
         } else {
             System.out.println("\n DEBUG : Client.run() - starting client receiving thread connected");

@@ -550,7 +550,7 @@ public class Network extends Thread {
 
             synchronized (this) {
 
-                Thread.yield();
+                currentThread().yield();
 
                 if (this.getOutBufferStatus().equals("empty")) {
                     disconnect(this.getClientIP());
