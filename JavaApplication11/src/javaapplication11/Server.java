@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javaapplication11;
 
-/**
- *
- * @author Le Cherng
- */
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,14 +10,13 @@ import java.util.InputMismatchException;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*package comp546pa1w2020;*/
 
 /** Server class
  *
- * @author Kerly Titus
+ * @author Le Cherng Lee, Mona Kia, Richard Nguyen
  */
 
-public class Server extends Thread{
+public class Server extends Thread {
   
 	int numberOfTransactions;         /* Number of transactions handled by the server */
 	int numberOfAccounts;             /* Number of accounts stored in the server */
@@ -139,7 +129,7 @@ public class Server extends Thread{
         
         try
         {
-         inputStream = new Scanner(new FileInputStream("account.txt"));
+         inputStream = new Scanner(new FileInputStream("src\\javaapplication11\\account.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -199,11 +189,11 @@ public class Server extends Thread{
      public boolean processTransactions(Transactions trans)
      {   int accIndex;             	/* Index position of account to update */
          double newBalance; 		/* Updated account balance */
-              
+
          /* Process the accounts until the client disconnects */
          while ((!objNetwork.getClientConnectionStatus().equals("disconnected")))
          { 
-        	 /* while( (objNetwork.getInBufferStatus().equals("empty"))); */  /* Alternatively, busy-wait until the network input buffer is available */
+        	 while( (objNetwork.getInBufferStatus().equals("empty"))) Thread.yield(); /* Alternatively, busy-wait until the network input buffer is available */
         	 
         	 if (!objNetwork.getInBufferStatus().equals("empty"))
         	 {
@@ -235,24 +225,24 @@ public class Server extends Thread{
         				 /* Process query operation */
         				 if (trans.getOperationType().equals("QUERY"))
         				 {
-                            newBalance = query(accIndex);
-                            trans.setTransactionBalance(newBalance);
-                            trans.setTransactionStatus("done");
-                            
-                            System.out.println("\n DEBUG : Server.processTransactions() - Obtaining balance from account" + trans.getAccountNumber());
+                                            newBalance = query(accIndex);
+                                            trans.setTransactionBalance(newBalance);
+                                            trans.setTransactionStatus("done");
+
+                                            System.out.println("\n DEBUG : Server.processTransactions() - Obtaining balance from account" + trans.getAccountNumber());
         				 } 
-        		        		 
-        		 // while( (objNetwork.getOutBufferStatus().equals("full"))); /* Alternatively,  busy-wait until the network output buffer is available */
+     		 
+        		 while( (objNetwork.getOutBufferStatus().equals("full"))) Thread.yield(); /* Alternatively,  busy-wait until the network output buffer is available */
                                                            
         		 System.out.println("\n DEBUG : Server.processTransactions() - transferring out account " + trans.getAccountNumber());
         		 
-        		 objNetwork.transferOut(trans);                            		/* Transfer a completed transaction from the server to the network output buffer */
+        		 objNetwork.transferOut(trans);                            	/* Transfer a completed transaction from the server to the network output buffer */
         		 setNumberOfTransactions( (getNumberOfTransactions() +  1) ); 	/* Count the number of transactions processed */
         	 }
          }
          
          System.out.println("\n DEBUG : Server.processTransactions() - " + getNumberOfTransactions() + " accounts updated");
-              
+
          return true;
      }
          
@@ -306,11 +296,7 @@ public class Server extends Thread{
      {	
     	 return ("\n server IP " + objNetwork.getServerIP() + "connection status " + objNetwork.getServerConnectionStatus() + "Number of accounts " + getNumberOfAccounts());
      }
-     
-     /* *********************************************************************************************************************************************
-      * TODO : implement the method Run() to execute the server thread				 																*
-      * *********************************************************************************************************************************************/
-     
+
     /**
      * Code for the run method
      * 
@@ -320,14 +306,15 @@ public class Server extends Thread{
     public void run()
     {   Transactions trans = new Transactions();
     	long serverStartTime, serverEndTime;
-        
-        serverStartTime = System.currentTimeMillis();
+
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
     	
-    	/* Implement the code for the run method */
+        serverStartTime = System.currentTimeMillis();
+    	processTransactions(trans);
+        objNetwork.disconnect(objNetwork.getServerIP());
+        System.out.println(">>>>>>>Server status is: " + objNetwork.getServerConnectionStatus());
         serverEndTime = System.currentTimeMillis();
-        System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
-        
+        System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");        
     }
 }
 
