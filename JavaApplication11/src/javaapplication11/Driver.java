@@ -18,7 +18,7 @@ public class Driver {
 
         Network objNetwork = new Network("network");
         /* Activate the network */
-        synchronized (objNetwork) {
+        
             objNetwork.start();
             Server objServer = new Server();
             /* Start the server */
@@ -29,8 +29,7 @@ public class Driver {
             Client objClient2 = new Client("receiving");
             /* Start the receiving client */
             objClient2.start();
-            objNetwork.notify();
-        }
+            
     }
 
 }

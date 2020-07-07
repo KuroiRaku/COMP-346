@@ -550,7 +550,8 @@ public class Network extends Thread {
             if (clientConnectionStatus.equals("disconnected") && serverConnectionStatus.equals("disconnected")) {
                 System.out.println("\nTerminating network thread - Client disconnected Server disconnected");
                 setNetworkStatus("inactive");
-                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nit got broken");
+                
+                
                 return;
             }
             else {

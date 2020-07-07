@@ -159,7 +159,7 @@ public class Client extends Thread {
      * @return
      * @param
      */
-    public void sendTransactions() throws InterruptedException {
+    public void sendTransactions(){
         int i = 0;
         /* index of transaction array */
 
@@ -233,22 +233,25 @@ public class Client extends Thread {
         long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
         if (clientOperation.equals("sending")) {
             sendClientStartTime = System.currentTimeMillis();
-            try {
+            
                 sendTransactions();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
             
             sendClientEndTime = System.currentTimeMillis();
+            System.out.println("\n\n\n\n\n\n\n\nTHIS IS WHERE YOU ARE SENDING THREAD");
             System.out.println("\n Terminating client sending thread - " + " Running time " + (sendClientEndTime - sendClientStartTime) + " milliseconds");
-            objNetwork.disconnect(objNetwork.getClientIP());
+            
         }
-        else if (clientOperation.equals("receiving")) {
+        else  {
             receiveClientStartTime = System.currentTimeMillis();
             receiveTransactions(transact);
             
             receiveClientEndTime = System.currentTimeMillis();
+            System.out.println("\n\n\n\n\n\n\n\nTHIS IS WHERE YOU ARE RECEIVING THREAD");
             System.out.println("\n Terminating client receiving thread - " + " Running time " + (receiveClientEndTime - receiveClientStartTime) + " milliseconds");
+            objNetwork.disconnect(objNetwork.getClientIP());
+            
+            objNetwork.setInBufferStatus("HELP");
         }
         
         

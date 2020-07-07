@@ -209,7 +209,7 @@ public class Server extends Thread {
             
             //Changer HERE!!!!
             while( (objNetwork.getInBufferStatus().equals("empty"))){
-                
+//                System.out.println("Problem at in buffer status equals empty in server");
                 Thread.yield();
             }  /* Alternatively, busy-wait until the network input buffer is available */
 
@@ -338,6 +338,6 @@ public class Server extends Thread {
         serverEndTime = System.currentTimeMillis();
         System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
         objNetwork.disconnect(objNetwork.getServerIP());
-        System.out.println(">>>>>>>Server status is: " + objNetwork.getServerConnectionStatus());
+        
     }
 }
