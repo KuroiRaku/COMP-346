@@ -210,6 +210,9 @@ public class Server extends Thread {
             //Changer HERE!!!!
             while( (objNetwork.getInBufferStatus().equals("empty"))){
 //                System.out.println("Problem at in buffer status equals empty in server");
+                if(objNetwork.getClientConnectionStatus().equals("disconnected")){
+                    break;
+                }
                 Thread.yield();
             }  /* Alternatively, busy-wait until the network input buffer is available */
 
