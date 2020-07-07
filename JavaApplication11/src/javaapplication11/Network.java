@@ -5,6 +5,7 @@
  */
 package javaapplication11;
 
+import static java.lang.Thread.currentThread;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,7 +48,6 @@ public class Network extends Thread {
     private static String networkStatus;
 
     /* Network status - active, inactive */
-
     /**
      * Constructor of the Network class
      *
@@ -531,7 +531,7 @@ public class Network extends Thread {
     /**
      * *********************************************************************************************************************************************
      * TODO : implement the method Run() to execute the server thread	*
-      * ********************************************************************************************************************************************
+     * ********************************************************************************************************************************************
      */
     /**
      * Code for the run method
@@ -543,23 +543,20 @@ public class Network extends Thread {
     @Override
     public void run() {
         System.out.println("\n DEBUG : Network.run() - starting network thread");
+        
 
         while (true) {
-            connect(this.getClientIP());
-            connect(this.getServerIP());
 
-            synchronized (this) {
-
-                currentThread().yield();
-
-                if (this.getOutBufferStatus().equals("empty")) {
-                    disconnect(this.getClientIP());
-                    disconnect(this.getServerIP());
-                    break;
-                }
+            if (clientConnectionStatus.equals("disconnected") && serverConnectionStatus.equals("disconnected")) {
+                System.out.println("\nTerminating network thread - Client disconnected Server disconnected");
+                setNetworkStatus("inactive");
+                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nit got broken");
+                return;
+            }
+            else {
+                Thread.yield();
             }
         }
-
-        System.out.println("\n Terminating network thread - Client disconnected Server disconnected");
+        
     }
 }

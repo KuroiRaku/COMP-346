@@ -13,6 +13,8 @@ import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -157,12 +159,16 @@ public class Client extends Thread {
      * @return
      * @param
      */
-    public void sendTransactions() {
+    public void sendTransactions() throws InterruptedException {
         int i = 0;
         /* index of transaction array */
 
         while (i < getNumberOfTransactions()) {
-            // while( objNetwork.getInBufferStatus().equals("full") );     /* Alternatively, busy-wait until the network input buffer is available */
+            
+            //// CHANGE HERE!!!!
+             while( objNetwork.getInBufferStatus().equals("full") ){
+                 Thread.yield();
+             }     /* Alternatively, busy-wait until the network input buffer is available */
 
             transaction[i].setTransactionStatus("sent");
             /* Set current transaction status */
@@ -187,7 +193,11 @@ public class Client extends Thread {
         /* Index of transaction array */
 
         while (i < getNumberOfTransactions()) {
-            // while( objNetwork.getOutBufferStatus().equals("empty"));  	/* Alternatively, busy-wait until the network output buffer is available */
+            //CHANGER HERE
+            while( objNetwork.getOutBufferStatus().equals("empty")){
+                Thread.yield();
+            }  	
+            /* Alternatively, busy-wait until the network output buffer is available */
 
             objNetwork.receive(transact);
             /* Receive updated transaction from the network buffer */
@@ -218,13 +228,30 @@ public class Client extends Thread {
      */
     @Override
     public void run() {
-        if (clientOperation.equals("sending")) {
-            System.out.println("\n DEBUG : Client.run() - starting client sending thread connected");
-        } else {
-            System.out.println("\n DEBUG : Client.run() - starting client receiving thread connected");
-        }
+        
         Transactions transact = new Transactions();
         long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
+        if (clientOperation.equals("sending")) {
+            sendClientStartTime = System.currentTimeMillis();
+            try {
+                sendTransactions();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            sendClientEndTime = System.currentTimeMillis();
+            System.out.println("\n Terminating client sending thread - " + " Running time " + (sendClientEndTime - sendClientStartTime) + " milliseconds");
+            objNetwork.disconnect(objNetwork.getClientIP());
+        }
+        else if (clientOperation.equals("receiving")) {
+            receiveClientStartTime = System.currentTimeMillis();
+            receiveTransactions(transact);
+            
+            receiveClientEndTime = System.currentTimeMillis();
+            System.out.println("\n Terminating client receiving thread - " + " Running time " + (receiveClientEndTime - receiveClientStartTime) + " milliseconds");
+        }
+        
+        
 
     }
 }
