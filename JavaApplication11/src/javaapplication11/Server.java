@@ -244,7 +244,9 @@ public class Server extends Thread {
                     System.out.println("\n DEBUG : Server.processTransactions() - Obtaining balance from account" + trans.getAccountNumber());
                 }
 
-                // while( (objNetwork.getOutBufferStatus().equals("full"))); /* Alternatively,  busy-wait until the network output buffer is available */
+                while( (objNetwork.getOutBufferStatus().equals("full"))){
+                    Thread.yield();
+                } /* Alternatively,  busy-wait until the network output buffer is available */
                 System.out.println("\n DEBUG : Server.processTransactions() - transferring out account " + trans.getAccountNumber());
 
                 objNetwork.transferOut(trans);
