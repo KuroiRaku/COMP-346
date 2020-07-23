@@ -1,0 +1,125 @@
+// Stats
+   CPU[i] utilization   : CPU[i].runningTime / (CPU[i].idleTime + CPU[i].runningTime)
+
+   Avg wait time        : (total of all processes.waitTime) / ProcessList.size
+
+   *Throughput CPU      : (ProcessList / indexTime) when all process are over
+   *not needed
+   * cannot calculate for individual CPUs because process can switch from one CPU to another (ASK TEACHER IF THAT'S CORRECT)
+
+   Turnaround process[j]: getTotalTime() = totalExecTime + waitTime // Are IO time ignored?
+
+   CPU response time    : process[j].startTime - process[j].arrivalTime
+   for process[j]
+
+>Main
+
+readFile()
+
+// Array of CPU
+CPUs[numOfCPU] = {
+  new CPU()
+  ...
+}
+// ArrayList of processes
+ProcessList.push(new Process())
+
+numProcesses = ProcessList.size 
+i = 0 // Current unit time
+
+// select which scheduler to use
+scheduler = cpuScheduler.FCFS()
+
+queue ready_queue(&)
+queue waiting_queue(&)
+
+//////////////////////////////////////////////////
+While numProcesses != 0
+{
+   // put new processes in ready queue
+   forall process in ProcessList
+      if process.arrivalTime == indexTime
+         ready_queue.push(process)
+
+   // update waiting queue
+   forall process in waiting_queue
+      ++process.ioWaitTime
+      if process.ioWaitTime == 2
+         wait_queue.pop(process)
+         ready_queue.push(process)
+         process.ioWaitTime = 0
+
+   // update all CPUs, inferring that it is impossible to have an IO request at 0
+   forall cpu in CPUs 
+      cpu.update()
+      if cpu.status(idle)
+          if ready_queue is not empty
+              cpu.currentProcess(dispatchProcess())
+      cpu.run(i)
+
+   ++i // increment time
+}
+//////////////////////////////////////////////////
+
+>CPU Scheduler
+   FCFS()
+   SJF() : compare with process in ready queue and cpus together
+   SRTF()
+   RR()
+
+   dispatchProcess() returns reference of process to run
+                     it removes process from ready_queue, process.status(running)
+
+>CPU class
+   private: currentProcess : reference of the process alocated to CPU
+            idletime       : time CPU not working starting at time 0
+            runningTime    : time CPU is running a process
+            status         : idle or running
+            quantum        : time allowed for process to run for rr
+
+   function: update(&indexTime) : if status(running)
+                                     if currentProcess.status(terminated)
+                                        currentProcess.exitTime(&indexTime)
+                                        --numProcesses // for the sake of data it holds, we do not delete the process
+                                        currentProcess = null
+                                        status(idle)
+                                     else if currentProcess.status(waiting)
+                                        currentProcess.event_wait()
+                                        waiting_queue.push(current_process)
+                                        currentProcess = null
+                                        status(idle)
+
+             run(i)   : if it has a process running then ++runningTime and currentProcess.run(i)
+                      else ++idleTime         
+
+>Process class
+   private: ID, arrivaltime, totalExecTime, stack IORequestTime
+            status         : new, ready, running, waiting, *terminated
+                             * terminated means totalExecTime is over, but process is still on CPU
+            startTime      : first time it enters CPU starts at -1
+            execTime       : time being spend processing on CPU
+            waitTime       : total time the process waits on the ready queue || turnaroundTime - totalExecTime
+            turnaroundTime : totalExecTime + waitTime || exitTime - arrivalTime - (IORequestTime.size * 2)
+            exitTime       : time when process exits CPU
+            ioWaitTime     : time used for the waiting_queue, up to 2 unit time
+
+   // not sure if that's the functions to use
+   function: admitted           : new -> ready		// sent to ready_queue
+             scheduler_dispatch : ready -> running      // ready_queue to a CPU
+             interrupt          : running -> ready      // CPU to ready_queue
+             event_wait         : running -> waiting    // CPU to waiting_queue
+             event_completion   : waiting -> ready      // waiting_queue to ready_queue
+             exit               : running -> terminated // CPU to terminated_queue
+
+             run(i) : if startTime == -1 then startTime = &i
+                   ++execTime
+                   if currentProcess.execTime == totalExecTime
+                      currentProcess.status(terminated)
+                   else if currentProcess.execTime == IORequestTime
+                      currentProcess.status(waiting)    
+                      IORequestTime.pop  
+
+             getTotalTime : totalExecTime + waitTime
+   
+   scheduler_dispatch : I/O request
+   interrupt          : depending on algorithm: Some CPU allows 200ms of burst time then put process back on ready queue (i.e. RR w/ quantum)
