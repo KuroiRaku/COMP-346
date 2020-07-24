@@ -42,7 +42,35 @@ public class CPU {
             // If there are no process in ready queue, reset quantum
             if (!Assignment2.ready_queue.isEmpty())
             {
-                if (scheduler.equals("SJF") || scheduler.equals("SRTF")) 
+                schedulingActive(scheduler);
+                currentProcess.setStatus("running");
+            }
+            else
+            {
+                if (currentProcess.getQuantum() > quantum)
+                {
+                    currentProcess.setQuantum(0);
+                }
+            }
+        }
+        else // CPU is idle
+        {
+            if (!Assignment2.ready_queue.isEmpty())
+            {
+                schedulingIdle(scheduler);
+                
+                currentProcess.setStatus("running");
+                System.out.println("> Process " + currentProcess.getID() + 
+                                   " has left the ready queue and is now running"
+                                           + " on CPU " + ID);
+                status = "running";
+            }
+        }
+    }
+    
+    void schedulingActive(String scheduler)
+    {
+        if (scheduler.equals("SJF") || scheduler.equals("SRTF")) 
                 {
                     Process shortestProcess = currentProcess;
                     for(Process p : Assignment2.ready_queue) {
@@ -75,20 +103,10 @@ public class CPU {
                         currentProcess = Assignment2.ready_queue.remove(0);
                     }
                 }
-                currentProcess.setStatus("running");
-            }
-            else
-            {
-                if (currentProcess.getQuantum() > quantum)
-                {
-                    currentProcess.setQuantum(0);
-                }
-            }
-        }
-        else // CPU is idle
-        {
-            if (!Assignment2.ready_queue.isEmpty())
-            {
+    }
+    
+    void schedulingIdle(String scheduler)
+    {
                 // Using FCFS or RR
                 if (scheduler.equals("FCFS") || scheduler.equals("RR")) 
                 {
@@ -106,14 +124,10 @@ public class CPU {
                     currentProcess = shortestProcess;
                     Assignment2.ready_queue.remove(shortestProcess);
                 }
-                currentProcess.setStatus("running");
-                System.out.println("> Process " + currentProcess.getID() + 
-                                   " has left the ready queue and is now running"
-                                           + " on CPU " + ID);
-                status = "running";
-            }
-        }
+        
     }
+    
+    
 
     public void run(int TIME_UNIT)
     {
