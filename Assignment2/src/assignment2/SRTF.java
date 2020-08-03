@@ -12,21 +12,23 @@ import java.util.ArrayList;
  * @author Le Cherng
  */
 public class SRTF extends CpuScheduler {
-
+        
     public SRTF(String name) {
         super(name);
     }
-
+    
     @Override
     // go over every cpu and processes and updates according to their states
     // time starts at 0
     public void update(int time) {
-
+        
         // temporary list used to remove processes from new queue
-        ArrayList<Process> temp_Processes = new ArrayList<Process>();
+        ArrayList<Process> temp_Processes = new ArrayList<Process>();        
         // check if new processes arrived and add to the ready queue
-        for (Process p : new_queue) {
-            if (p.getArrivalTime() == time) {
+        for (Process p : new_queue)
+        {
+            if (p.getArrivalTime() == time)
+            {
                 p.wake_up();
                 ready_queue.add(p);
                 temp_Processes.add(p);
@@ -35,7 +37,7 @@ public class SRTF extends CpuScheduler {
         // removing them from new process queue
         for (Process p : temp_Processes) {
             new_queue.remove(p);
-        }
+        }        
 
         // update all cps
         // remove terminated or waiting processes
@@ -45,28 +47,27 @@ public class SRTF extends CpuScheduler {
                 if (c.getCurrentProcess().isTerminated()) {
                     remove(c, terminated_queue);
                     if (!ready_queue.isEmpty()) // free cpu to use
-                    {
                         select(c, time);
-                    }
-                } else if (c.getCurrentProcess().isWaiting()) {
+                }
+                else if (c.getCurrentProcess().isWaiting()) {
                     remove(c, wait_queue);
                     if (!ready_queue.isEmpty()) // free cpu to use
-                    {
                         select(c, time);
-                    }
-                } else if (!ready_queue.isEmpty()) {
+                }
+                else if (!ready_queue.isEmpty()) {
                     c.getCurrentProcess().preempt();
                     remove(c, ready_queue);
                     select(c, time);
                 }
-            } else {     // cpu is idle
+            }
+            else {     // cpu is idle
                 if (!c.isRunning() && !ready_queue.isEmpty()) // free cpu to use
                 {
                     select(c, time);
                 }
             }
         }
-
+        
         // Print output
         log(time);
     }
@@ -74,19 +75,21 @@ public class SRTF extends CpuScheduler {
     @Override
     // select Process p from the ready queue and places to a free CPU
     public void select(CPU c, int time) {
-
+        
+        
         Process shortestProcess = ready_queue.get(0);
         for (Process p : ready_queue) {
-            if (shortestProcess.getRemainingExecTime() > p.getRemainingExecTime()) {
+            if (shortestProcess.getRemainingExecTime() > p.getRemainingExecTime())
+            {
                 shortestProcess = p;
             }
         }
-        c.setCurrentProcess(shortestProcess);
-        if (shortestProcess.getStartTime() == -1) {
+        c.setCurrentProcess(shortestProcess);   
+        if (shortestProcess.getStartTime() == -1) 
             shortestProcess.setStartTime(time); // set first time execution
-        }
         ready_queue.remove(shortestProcess);
         shortestProcess.setStatusRunning();
         c.setStatusRunning();
     }
 }
+

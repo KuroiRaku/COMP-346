@@ -18,10 +18,10 @@ public class CPU {
     private cpuStatus status;
     
     private Process currentProcess; // reference of the process alocated to CPU
-    private int     idleTime,       // time CPU not working starting at time 0
-                    runningTime,    // time CPU is running a process
-                    quantum,        // time allowed for process to run for rr
-                    ID;             // ID of the CPU
+    private int     idleTime;       // time CPU not working starting at time 0
+    private int     runningTime;    // time CPU is running a process
+    private int     quantum;        // time allowed for process to run for rr
+    private int     ID;             // ID of the CPU
 
     public CPU(int ID) {
         this.ID = ID;
