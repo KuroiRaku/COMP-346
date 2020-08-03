@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Assignment2">
+  <ClassDiagramComponents>
+    <Class name="Assignment2" package="assignment2" visibility="public" xPosition="995.0" yPosition="50.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CPU" package="assignment2" visibility="public" xPosition="489.0" yPosition="74.0">
+      <Fields>
+        <Field name="status" type="cpuStatus" visibility="private"/>
+        <Field name="currentProcess" type="Process" visibility="private"/>
+        <Field name="idleTime" type="int" visibility="private"/>
+        <Field name="runningTime" type="int" visibility="private"/>
+        <Field name="quantum" type="int" visibility="private"/>
+        <Field name="ID" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="ID"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="clearProcess" returnType="void" visibility="public"/>
+        <Method name="run" returnType="void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="isRunning" returnType="boolean" visibility="public"/>
+        <Method name="setStatusRunning" returnType="void" visibility="public"/>
+        <Method name="setStatusIdle" returnType="void" visibility="public"/>
+        <Method name="setIldeTime" returnType="void" visibility="public">
+          <Argument type="int" name="idleTime"/>
+        </Method>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="int" name="ID"/>
+        </Method>
+        <Method name="getIldeTime" returnType="int" visibility="public"/>
+        <Method name="getID" returnType="int" visibility="public"/>
+        <Method name="getCurrentProcess" returnType="Process" visibility="public"/>
+        <Method name="getRunningTime" returnType="int" visibility="public"/>
+        <Method name="getStatus" returnType="cpuStatus" visibility="public"/>
+        <Method name="setCurrentProcess" returnType="void" visibility="public">
+          <Argument type="Process" name="currentProcess"/>
+        </Method>
+        <Method name="setIdletime" returnType="void" visibility="public">
+          <Argument type="int" name="idleTime"/>
+        </Method>
+        <Method name="setRunningTime" returnType="void" visibility="public">
+          <Argument type="int" name="runningTime"/>
+        </Method>
+        <Method name="setStatus" returnType="void" visibility="public">
+          <Argument type="cpuStatus" name="status"/>
+        </Method>
+        <Method name="getCPUUtilization" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="CpuScheduler" package="assignment2" visibility="public" xPosition="368.0" yPosition="682.0">
+      <Fields>
+        <Field name="name" type="String" visibility="protected"/>
+        <Field name="CPUs" type="ArrayList&lt;CPU&gt;" visibility="protected"/>
+        <Field name="new_queue" type="ArrayList&lt;Process&gt;" visibility="protected"/>
+        <Field name="ready_queue" type="ArrayList&lt;Process&gt;" visibility="protected"/>
+        <Field name="wait_queue" type="ArrayList&lt;Process&gt;" visibility="protected"/>
+        <Field name="terminated_queue" type="ArrayList&lt;Process&gt;" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="select" returnType="void" visibility="public">
+          <Argument type="CPU" name="c"/>
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="remove" returnType="void" visibility="public">
+          <Argument type="CPU" name="c"/>
+          <Argument type="ArrayList&lt;Process&gt;" name="destination"/>
+        </Method>
+        <Method name="terminate" returnType="void" visibility="public">
+          <Argument type="CPU" name="target"/>
+        </Method>
+        <Method name="getCPUs" returnType="ArrayList&lt;CPU&gt;" visibility="public"/>
+        <Method name="setCPUs" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;CPU&gt;" name="CPUs"/>
+        </Method>
+        <Method name="getNew_queue" returnType="ArrayList&lt;Process&gt;" visibility="public"/>
+        <Method name="setNew_queue" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;Process&gt;" name="new_queue"/>
+        </Method>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getTerminated_queue" returnType="ArrayList&lt;Process&gt;" visibility="public"/>
+        <Method name="setTerminated_queue" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;Process&gt;" name="terminated_queue"/>
+        </Method>
+        <Method name="getAvgWaitTime" returnType="float" visibility="public"/>
+        <Method name="log" returnType="void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="getStatistics" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="FCFS" package="assignment2" visibility="public" xPosition="200.0" yPosition="1322.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="// time starts at 0 void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="select" returnType="// select Process p from the ready queue and places to a free CPU void" visibility="public">
+          <Argument type="CPU" name="c"/>
+          <Argument type="int" name="time"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Process" package="assignment2" visibility="public" xPosition="1156.0" yPosition="230.0">
+      <Fields>
+        <Field name="status" type="processStatus" visibility="private"/>
+        <Field name="ID" type="String" visibility="private"/>
+        <Field name="arrivalTime" type="int" visibility="private"/>
+        <Field name="totalExecTime" type="int" visibility="private"/>
+        <Field name="IORequestTime" type="ArrayList&lt;Integer&gt;" visibility="private"/>
+        <Field name="startTime" type="int" visibility="private"/>
+        <Field name="execTime" type="int" visibility="private"/>
+        <Field name="waitTime" type="int" visibility="private"/>
+        <Field name="exitTime" type="int" visibility="private"/>
+        <Field name="ioWaitTime" type="int" visibility="private"/>
+        <Field name="quantum" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="ID"/>
+          <Argument type="int" name="arrivalTime"/>
+          <Argument type="int" name="totalExecTime"/>
+          <Argument type="ArrayList&lt;Integer&gt;" name="IORequestTime"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="run" returnType="void" visibility="public">
+          <Argument type="int" name="time"/>
+          <Argument type="CPU" name="cpu"/>
+        </Method>
+        <Method name="wake_up" returnType="void" visibility="public"/>
+        <Method name="yield" returnType="void" visibility="public"/>
+        <Method name="preempt" returnType="void" visibility="public"/>
+        <Method name="terminate" returnType="void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="setStatusRunning" returnType="void" visibility="public"/>
+        <Method name="isTerminated" returnType="boolean" visibility="public"/>
+        <Method name="isWaiting" returnType="boolean" visibility="public"/>
+        <Method name="setQuantum" returnType="void" visibility="public">
+          <Argument type="int" name="quantum"/>
+        </Method>
+        <Method name="getQuantum" returnType="int" visibility="public"/>
+        <Method name="incrementWaitTime" returnType="void" visibility="public"/>
+        <Method name="getArrivalTime" returnType="int" visibility="public"/>
+        <Method name="getResponseTime" returnType="int" visibility="public"/>
+        <Method name="setArrivalTime" returnType="void" visibility="public">
+          <Argument type="int" name="arrivalTime"/>
+        </Method>
+        <Method name="getID" returnType="String" visibility="public"/>
+        <Method name="getTotalExecTime" returnType="int" visibility="public"/>
+        <Method name="getIORequestTime" returnType="ArrayList&lt;Integer&gt;" visibility="public"/>
+        <Method name="getStatus" returnType="processStatus" visibility="public"/>
+        <Method name="getStartTime" returnType="int" visibility="public"/>
+        <Method name="getExecTime" returnType="int" visibility="public"/>
+        <Method name="getWaitTime" returnType="int" visibility="public"/>
+        <Method name="getTurnaroundTime" returnType="int" visibility="public"/>
+        <Method name="getExitTime" returnType="int" visibility="public"/>
+        <Method name="getIoWaitTime" returnType="int" visibility="public"/>
+        <Method name="getRemainingExecTime" returnType="int" visibility="public"/>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="String" name="ID"/>
+        </Method>
+        <Method name="setArrivaltime" returnType="void" visibility="public">
+          <Argument type="int" name="arrivalTime"/>
+        </Method>
+        <Method name="setTotalExecTime" returnType="void" visibility="public">
+          <Argument type="int" name="totalExecTime"/>
+        </Method>
+        <Method name="setIORequestTime" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;Integer&gt;" name="IORequestTime"/>
+        </Method>
+        <Method name="setStatus" returnType="void" visibility="public">
+          <Argument type="processStatus" name="status"/>
+        </Method>
+        <Method name="setStartTime" returnType="void" visibility="public">
+          <Argument type="int" name="startTime"/>
+        </Method>
+        <Method name="setExecTime" returnType="void" visibility="public">
+          <Argument type="int" name="execTime"/>
+        </Method>
+        <Method name="setWaitTime" returnType="void" visibility="public">
+          <Argument type="int" name="waitTime"/>
+        </Method>
+        <Method name="setExitTime" returnType="void" visibility="public">
+          <Argument type="int" name="exitTime"/>
+        </Method>
+        <Method name="setIoWaitTime" returnType="void" visibility="public">
+          <Argument type="int" name="ioWaitTime"/>
+        </Method>
+        <Method name="increaseIoWaitTime" returnType="void" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="RR" package="assignment2" visibility="public" xPosition="768.0" yPosition="1322.0">
+      <Fields>
+        <Field name="q" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="int" name="q"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="// time starts at 0 void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="select" returnType="// select Process p from the ready queue and places to a free CPU void" visibility="public">
+          <Argument type="CPU" name="c"/>
+          <Argument type="int" name="time"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SJF" package="assignment2" visibility="public" xPosition="1352.0" yPosition="1371.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="// time starts at 0 void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="select" returnType="// select Process p from the ready queue and places to a free CPU void" visibility="public">
+          <Argument type="CPU" name="c"/>
+          <Argument type="int" name="time"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SRTF" package="assignment2" visibility="public" xPosition="1896.0" yPosition="1381.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="// time starts at 0 void" visibility="public">
+          <Argument type="int" name="time"/>
+        </Method>
+        <Method name="select" returnType="// select Process p from the ready queue and places to a free CPU void" visibility="public">
+          <Argument type="CPU" name="c"/>
+          <Argument type="int" name="time"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="wait_queue" source="assignment2.CpuScheduler" target="assignment2.Process" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Process&gt;"/>
+    <UseRelation source="assignment2.CPU" target="assignment2.Process" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="ready_queue" source="assignment2.CpuScheduler" target="assignment2.Process" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Process&gt;"/>
+    <HasRelation name="CPUs" source="assignment2.CpuScheduler" target="assignment2.CPU" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;CPU&gt;"/>
+    <IsRelation name="is" source="assignment2.SJF" target="assignment2.CpuScheduler"/>
+    <HasRelation name="new_queue" source="assignment2.CpuScheduler" target="assignment2.Process" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Process&gt;"/>
+    <IsRelation name="is" source="assignment2.SRTF" target="assignment2.CpuScheduler"/>
+    <HasRelation name="currentProcess" source="assignment2.CPU" target="assignment2.Process" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="assignment2.RR" target="assignment2.CpuScheduler"/>
+    <UseRelation source="assignment2.SJF" target="assignment2.Process" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="assignment2.CpuScheduler" target="assignment2.Process" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="assignment2.SRTF" target="assignment2.Process" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="assignment2.FCFS" target="assignment2.CpuScheduler"/>
+    <UseRelation source="assignment2.CpuScheduler" target="assignment2.CPU" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="assignment2.Process" target="assignment2.CPU" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="assignment2.RR" target="assignment2.Process" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="assignment2.FCFS" target="assignment2.Process" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="terminated_queue" source="assignment2.CpuScheduler" target="assignment2.Process" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Process&gt;"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

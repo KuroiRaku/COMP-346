@@ -26,7 +26,7 @@ public class Assignment2 {
             File myObj = new File("input.txt");
             Scanner myReader = new Scanner(myObj);
             Scanner input = new Scanner(System.in);
-             System.out.println("Please enter 0 for FCFS, 1 for SJF, 2 for SRTF, and 3 for RR");
+            System.out.println("Please enter 0 for FCFS, 1 for SJF, 2 for SRTF, and 3 for RR");
             int choice = input.nextInt();
             switch (choice) {
                 case 0:

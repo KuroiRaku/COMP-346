@@ -27,6 +27,8 @@ public class Semaphore {
             try
             {
                 wait();
+                
+                System.out.println("\n\n\nValue: "+ this.value);
             }
             catch(InterruptedException e)
             {

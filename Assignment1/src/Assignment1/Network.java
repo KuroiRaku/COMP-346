@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication11;
+package Assignment1;
 
 import static java.lang.Thread.currentThread;
 import java.util.logging.Level;
