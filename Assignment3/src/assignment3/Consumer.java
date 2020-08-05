@@ -22,6 +22,7 @@ public class Consumer extends Thread {
         while (true) {
             if (!(Assignment3.C.nextFloat() <  r))
                 continue;
+            
             Assignment3.full.Wait();
             Assignment3.mutex.Wait();
             
@@ -34,7 +35,7 @@ public class Consumer extends Thread {
             --Assignment3.shared_index;
             Assignment3.buffer[Assignment3.shared_index] = 0;
             for (int i = 0; i < Assignment3.buffer.length; i++)
-                System.out.print(Assignment3.buffer[i] + " ");
+                System.out.print("At index "+i+" "+Assignment3.buffer[i] + " ");
             if (Assignment3.shared_index == 0)
                  System.out.println("(EMPTY)");
             else

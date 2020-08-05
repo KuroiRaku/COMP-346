@@ -14,6 +14,7 @@ package assignment3;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -29,12 +30,19 @@ public class Assignment3 {
     public static Semaphore empty = new Semaphore(BUFFER_SIZE); 
     public static Random P = new Random(System.currentTimeMillis());
     public static Random C = new Random(System.currentTimeMillis());
-    private static float q = 0.66f;
-    
-    public static Consumer consumer = new Consumer( 1 - q );
-    public static Producer producer = new Producer(q);
+    public static Consumer consumer;
+    public static Producer producer;
     
     public static void main(String[] args) {
+        //input
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter number for q");
+        float q = input.nextFloat();
+        
+        //initializing consumer and producer
+        consumer = new Consumer( 1 - q );
+        producer = new Producer(q);
+    
         Arrays.fill(buffer, 0);
 
         consumer.start();

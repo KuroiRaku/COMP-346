@@ -40,7 +40,7 @@ public class Semaphore {
     }
 
     public synchronized void Signal()
-{
+    {
         ++this.value;
         notify();
     }
