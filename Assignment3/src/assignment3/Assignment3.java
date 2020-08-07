@@ -24,7 +24,7 @@ public class Assignment3 {
     
     public static final int BUFFER_SIZE = 10;
     public static int shared_index = 0;
-    public static int[] buffer = new int[BUFFER_SIZE];
+    public static ArrayList<Integer> buffer;
     public static Semaphore mutex = new Semaphore(1);
     public static Semaphore full = new Semaphore(0);        
     public static Semaphore empty = new Semaphore(BUFFER_SIZE); 
@@ -43,8 +43,16 @@ public class Assignment3 {
         consumer = new Consumer( 1 - q );
         producer = new Producer(q);
     
-        Arrays.fill(buffer, 0);
-
+        buffer = new ArrayList<Integer>(BUFFER_SIZE);
+        for (int i = 0; i <BUFFER_SIZE; i++)
+            buffer.add(0);
+        
+        System.out.printf("START STATE - mutex:%d, full:%d, empty:%-2d   "
+                    + " P:%s C:%s\n\n",
+                Assignment3.mutex.getValue(), Assignment3.full.getValue(), 
+                Assignment3.empty.getValue(), Assignment3.producer.getState(), 
+                Assignment3.consumer.getState());
+        
         consumer.start();
         producer.start();
         try
@@ -52,7 +60,11 @@ public class Assignment3 {
             consumer.join();
             producer.join();
             // Some final stats after all the child threads terminated...
-            System.out.println("System terminates normally.");
+            System.out.printf("\nEND STATE - mutex:%d, full:%d, empty:%-2d   "
+                        + " P:%s C:%s\n\n",
+                    Assignment3.mutex.getValue(), Assignment3.full.getValue(), 
+                    Assignment3.empty.getValue(), Assignment3.producer.getState(), 
+                    Assignment3.consumer.getState()); 
         }
        catch(InterruptedException e)
        {

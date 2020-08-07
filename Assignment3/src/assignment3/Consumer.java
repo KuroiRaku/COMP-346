@@ -19,30 +19,28 @@ public class Consumer extends Thread {
     }
     
     public void run() {
-        while (true) {
+        boolean next = true;
+        int iteration = 30;
+        while (next) {
+            if (--iteration == 0)
+                next = false;
             if (!(Assignment3.C.nextFloat() <  r))
                 continue;
             
-            Assignment3.full.Wait();
-            Assignment3.mutex.Wait();
+            Assignment3.full.Wait("C decrement full to  ");
+            Assignment3.mutex.Wait("C decrement mutex to ");
             
             /* remove an item from buffer to next_consumed */ 
-            System.out.printf("- Consume item - mutex(%d), full(%d), empty(%d),"
-                    + " P(%s), C(%s): ", 
-                    Assignment3.mutex.getValue(), Assignment3.full.getValue(), 
-                    Assignment3.empty.getValue(), Assignment3.producer.getState(), 
-                    Assignment3.consumer.getState());   
             --Assignment3.shared_index;
-            Assignment3.buffer[Assignment3.shared_index] = 0;
-            for (int i = 0; i < Assignment3.buffer.length; i++)
-                System.out.print("At index "+i+" "+Assignment3.buffer[i] + " ");
-            if (Assignment3.shared_index == 0)
-                 System.out.println("(EMPTY)");
-            else
-                System.out.println(""); 
+            Assignment3.buffer.set(Assignment3.shared_index, 0);
             
-            Assignment3.mutex.Signal();
-            Assignment3.empty.Signal();
+            System.out.printf("C consumes an item     - P:%-10s C:%-10s %s\n\n",
+                    Assignment3.producer.getState(), 
+                    Assignment3.consumer.getState(), 
+                    Assignment3.buffer);   ;   
+            
+            Assignment3.mutex.Signal("C increment mutex to ");
+            Assignment3.empty.Signal("C increment empty to ");
         }
     }
 }
