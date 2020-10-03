@@ -24,7 +24,8 @@ public class Consumer extends Thread {
         while (next) {
             if (--iteration == 0)
                 next = false;
-            if (!(Assignment3.C.nextFloat() <  r))
+            //r = 1-q
+            if ((Assignment3.C.nextFloat() >  r))
                 continue;
             
             Assignment3.full.Wait("C decrement full to  ");
@@ -37,7 +38,7 @@ public class Consumer extends Thread {
             System.out.printf("C consumes an item     - P:%-10s C:%-10s %s\n\n",
                     Assignment3.producer.getState(), 
                     Assignment3.consumer.getState(), 
-                    Assignment3.buffer);   ;   
+                    Assignment3.buffer);      
             
             Assignment3.mutex.Signal("C increment mutex to ");
             Assignment3.empty.Signal("C increment empty to ");

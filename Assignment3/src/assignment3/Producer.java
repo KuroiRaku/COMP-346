@@ -24,7 +24,7 @@ public class Producer extends Thread {
         while (next) {
             if (--iteration == 0)
                 next = false;
-            if (!(Assignment3.P.nextFloat() <  q))
+            if ((Assignment3.P.nextFloat() >  q))
                 continue;
             
             Assignment3.empty.Wait("P decrement empty to ");
@@ -34,7 +34,7 @@ public class Producer extends Thread {
             Assignment3.buffer.set(Assignment3.shared_index, 1);
             ++Assignment3.shared_index;
             
-            System.out.printf("P produces a new item  - P:%-10s C:%-10s %s\n\n",
+            System.out.printf("P produces a new item  - P:%-10s C:%-10s \n%s\n\n",
                     Assignment3.producer.getState(), 
                     Assignment3.consumer.getState(), 
                     Assignment3.buffer);   

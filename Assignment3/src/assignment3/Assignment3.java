@@ -39,6 +39,7 @@ public class Assignment3 {
         System.out.println("Please enter number for q");
         float q = input.nextFloat();
         
+        //0.7 
         //initializing consumer and producer
         consumer = new Consumer( 1 - q );
         producer = new Producer(q);
